@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -45,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         registerBtn = findViewById(R.id.btn_register);
 
-        getBaseContext();
         auth = FirebaseAuth.getInstance();
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     FirebaseUser firebaseUser = auth.getCurrentUser();
-                    assert firebaseUser != null;
                     String userId = firebaseUser.getUid();
 
                     reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
@@ -90,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
+                            } else {
+                                Log.d("Heyy", "Failed", task.getException());
                             }
                         }
                     });

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/bar_layout" />
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,17 +21,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_new_account"
+            android:text="@string/login_heading"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:layout_marginTop="10dp"
-            app:met_floatingLabel="normal"
-            android:hint="@string/register_username_hint" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
@@ -40,7 +32,7 @@
             android:inputType="textEmailAddress"
             android:layout_marginTop="10dp"
             app:met_floatingLabel="normal"
-            android:hint="@string/register_email_hint" />
+            android:hint="@string/login_email_hint" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
@@ -49,13 +41,13 @@
             android:inputType="textPassword"
             android:layout_marginTop="10dp"
             app:met_floatingLabel="normal"
-            android:hint="@string/register_password_hint" />
+            android:hint="@string/login_password_hint" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register_button"
-            android:id="@+id/btn_register"
+            android:text="@string/login_button"
+            android:id="@+id/btn_login"
             android:background="@color/colorPrimaryDark"
             android:layout_marginTop="10dp"
             android:textColor="#ffff" />
