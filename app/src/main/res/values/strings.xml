@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ChatApp</string>
+
+    <!-- Register Screen -->
+    <string name="username_field_hint">Username</string>
+    <string name="email_field_hint">Email</string>
+    <string name="password_field_hint">Password</string>
+    <string name="register_new_account">Create a new account</string>
+    <string name="register_button">Register</string>
 </resources>
