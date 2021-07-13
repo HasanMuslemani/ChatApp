@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
                 android:layout_marginStart="25dp"
-                android:text="@string/register_username_hint"
+                android:text=""
                 android:textColor="#fff"
                 android:textStyle="bold"/>
 
