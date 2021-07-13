@@ -7,14 +7,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class StartActivity extends AppCompatActivity {
 
     Button loginButton, registerButton;
+
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //check if the user is already logged in
+        if(firebaseUser != null) {
+            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         loginButton = findViewById(R.id.btn_login);
         registerButton = findViewById(R.id.btn_register);
