@@ -1,18 +1,31 @@
 package com.example.chatapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.chatapp.Fragments.ChatsFragment;
+import com.example.chatapp.Fragments.UsersFragment;
 import com.example.chatapp.Models.User;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +76,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(MainActivity.this);
+
+        viewPagerAdapter.addFragment(new ChatsFragment());
+        viewPagerAdapter.addFragment(new UsersFragment());
+
+        viewPager.setAdapter(viewPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(position == 0 ? "Chats" : "Users")
+        ).attach();
+
     }
 
     @Override
@@ -80,5 +110,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private class ViewPagerAdapter extends FragmentStateAdapter {
+
+        private ArrayList<Fragment> fragments;
+
+        public ViewPagerAdapter(@NonNull FragmentActivity fa) {
+            super(fa);
+            this.fragments = new ArrayList<>();
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return fragments.size();
+        }
+
+        public void addFragment(Fragment fragment) {
+            fragments.add(fragment);
+        }
     }
 }
