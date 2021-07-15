@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/primaryColor"
-    tools:context=".StartActivity">
+    tools:context=".Activities.StartActivity">
 
     <TextView
         android:layout_width="wrap_content"

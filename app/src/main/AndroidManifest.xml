@@ -9,15 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".Activities.MessageActivity"></activity>
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".MainActivity" />
+            android:name=".Activities.LoginActivity"
+            android:parentActivityName=".Activities.StartActivity" />
+        <activity android:name=".Activities.MainActivity" />
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity">
+            android:name=".Activities.RegisterActivity"
+            android:parentActivityName=".Activities.StartActivity" />
+        <activity android:name=".Activities.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

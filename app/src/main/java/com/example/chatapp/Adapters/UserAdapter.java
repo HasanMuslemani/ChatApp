@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.chatapp.MessageActivity;
+import com.example.chatapp.Activities.MessageActivity;
 import com.example.chatapp.Models.User;
 import com.example.chatapp.R;
 
