@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="@string/register_button"
             android:id="@+id/btn_register"
-            android:backgroundTint="@color/teal_dark"
+            android:backgroundTint="@color/primaryColor"
             android:layout_marginTop="10dp"
             android:textColor="#ffff" />
 

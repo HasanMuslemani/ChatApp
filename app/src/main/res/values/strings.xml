@@ -9,10 +9,13 @@
     <string name="register_button">Register</string>
 
     <!-- Login Screen -->
-    <string name="login_heading">Login</string>
+    <string name="login_heading">Login to an existing account</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Login</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Message Screen -->
+    <string name="message_field_hint">Type a message...</string>
 </resources>

@@ -9,13 +9,13 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:id="@+id/toolbar"
             android:layout_height="wrap_content"
-            android:background="@color/teal_dark"
+            android:background="@color/primaryColor"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle">
 
@@ -39,19 +39,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tab_layout"
-            android:background="@color/teal_dark"
-            app:tabSelectedTextColor="@color/pink"
-            app:tabIndicatorColor="@color/teal"
-            app:tabTextColor="@color/white" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:id="@+id/viewPager" />
+            android:background="@color/primaryColor"
+            app:tabSelectedTextColor="@color/secondaryLightColor"
+            app:tabIndicatorColor="@color/secondaryColor"
+            app:tabIndicatorHeight="3dp"
+            app:tabTextColor="@color/onPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:id="@+id/viewPager" />
 
 
 </LinearLayout>

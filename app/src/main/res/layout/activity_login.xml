@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:padding="16dp"
         android:layout_below="@id/toolbar">
 
@@ -48,9 +48,9 @@
             android:layout_height="wrap_content"
             android:text="@string/login_button"
             android:id="@+id/btn_login"
-            android:backgroundTint="@color/teal_dark"
+            android:backgroundTint="@color/primaryColor"
             android:layout_marginTop="10dp"
-            android:textColor="#ffff" />
+            android:textColor="@color/onPrimary" />
 
     </LinearLayout>
 </RelativeLayout>
