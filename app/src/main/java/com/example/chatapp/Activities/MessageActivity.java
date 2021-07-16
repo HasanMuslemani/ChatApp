@@ -8,7 +8,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.chatapp.Models.User;
@@ -21,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profileImage;
@@ -28,6 +33,9 @@ public class MessageActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
+
+    ImageButton sendBtn;
+    EditText messageField;
 
     Intent intent;
 
@@ -49,6 +57,8 @@ public class MessageActivity extends AppCompatActivity {
 
         profileImage = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
+        sendBtn = findViewById(R.id.sendBtn);
+        messageField = findViewById(R.id.messageField);
 
         intent = getIntent();
         String userID = intent.getStringExtra("userID");
@@ -56,13 +66,26 @@ public class MessageActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
 
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = messageField.getText().toString().trim();
+                if(!message.equals("")) {
+                    sendMessage(firebaseUser.getUid(), userID, message);
+                    messageField.setText("");
+                } else {
+                    Toast.makeText(MessageActivity.this, "You can't send an empty message", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if(user.getImageURL().equals("default")) {
-                   profileImage.setImageResource(R.mipmap.ic_launcher);
+                   Glide.with(MessageActivity.this).load(R.drawable.profile_image_default).into(profileImage);
                 } else {
                     Glide.with(MessageActivity.this).load(user.getImageURL()).into(profileImage);
                 }
@@ -74,5 +97,16 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void sendMessage(String senderID, String receiverID, String message) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        HashMap<String, Object> messageMap = new HashMap<>();
+        messageMap.put("sender", senderID);
+        messageMap.put("receiver", receiverID);
+        messageMap.put("message", message);
+
+        reference.child("Chats").push().setValue(messageMap);
     }
 }
