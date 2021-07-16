@@ -69,7 +69,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/sendBtn"
-            android:backgroundTint="@color/secondaryColor"
+            android:backgroundTint="@color/primaryDarkColor"
             android:background="@drawable/ic_action_name"
             android:layout_alignParentEnd="true" />
 

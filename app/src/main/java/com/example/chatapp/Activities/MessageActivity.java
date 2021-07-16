@@ -3,6 +3,8 @@ package com.example.chatapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.chatapp.Adapters.MessageAdapter;
+import com.example.chatapp.Models.Message;
 import com.example.chatapp.Models.User;
 import com.example.chatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -37,6 +43,10 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton sendBtn;
     EditText messageField;
 
+    MessageAdapter messageAdapter;
+    List<Message> messages;
+    RecyclerView recyclerView;
+
     Intent intent;
 
     @Override
@@ -48,12 +58,13 @@ public class MessageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(e -> finish());
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         profileImage = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
@@ -79,6 +90,8 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,6 +102,8 @@ public class MessageActivity extends AppCompatActivity {
                 } else {
                     Glide.with(MessageActivity.this).load(user.getImageURL()).into(profileImage);
                 }
+
+                getAllMessages(firebaseUser.getUid(), user.getId(), user.getImageURL());
             }
 
             @Override
@@ -103,10 +118,36 @@ public class MessageActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> messageMap = new HashMap<>();
-        messageMap.put("sender", senderID);
-        messageMap.put("receiver", receiverID);
+        messageMap.put("senderID", senderID);
+        messageMap.put("receiverID", receiverID);
         messageMap.put("message", message);
 
         reference.child("Chats").push().setValue(messageMap);
+    }
+
+    private void getAllMessages(String userID, String opposingUserID, String imageURL) {
+        messages = new ArrayList<>();
+
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messages.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    if(message.getReceiverID().equals(userID) && message.getSenderID().equals(opposingUserID)
+                    || message.getReceiverID().equals(opposingUserID) && message.getSenderID().equals(userID)) {
+                        messages.add(message);
+                    }
+                }
+                messageAdapter = new MessageAdapter(MessageActivity.this, messages, imageURL);
+                recyclerView.setAdapter(messageAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

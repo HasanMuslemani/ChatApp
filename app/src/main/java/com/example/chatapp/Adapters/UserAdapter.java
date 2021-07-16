@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.chatapp.Activities.MessageActivity;
+import com.example.chatapp.Constants;
 import com.example.chatapp.Models.User;
 import com.example.chatapp.R;
 
@@ -32,18 +33,15 @@ public class UserAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.user_item, parent, false);
-        return new ViewHolder(view);
+        return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         User user = users.get(position);
-        ((ViewHolder) holder).username.setText(user.getUsername());
-        if(user.getImageURL().equals("default")) {
-            Glide.with(context).load(R.drawable.profile_image_default).into(((ViewHolder) holder).profileImage);
-        } else {
-            Glide.with(context).load(user.getImageURL()).into(((ViewHolder) holder).profileImage);
-        }
+        ((UserViewHolder) holder).username.setText(user.getUsername());
+
+        Constants.loadProfileImage(context, user.getImageURL(), ((UserViewHolder) holder).profileImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +58,12 @@ public class UserAdapter extends RecyclerView.Adapter {
         return users.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
         public TextView username;
         public ImageView profileImage;
 
-        public ViewHolder(@NonNull View itemView) {
+        public UserViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
