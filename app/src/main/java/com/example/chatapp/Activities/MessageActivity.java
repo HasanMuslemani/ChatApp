@@ -90,7 +90,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
